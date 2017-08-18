@@ -14,50 +14,40 @@
 # limitations under the License.
 #
 
-DEVICE_PATH := $(LOCAL_PATH)
-CM_PATH := vendor/cm/config/product
+# Overlays
+DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
-# Overlay
-DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay
-
-# Include common product fragments
-include $(CM_PATH)/common/ant.mk
-include $(CM_PATH)/common/audio.mk
-include $(CM_PATH)/common/bluetooth.mk
-include $(CM_PATH)/common/bluetooth-le.mk
-include $(CM_PATH)/common/consumerir.mk
-include $(CM_PATH)/common/fingerprint.mk
-include $(CM_PATH)/common/fm.mk
-include $(CM_PATH)/common/gello.mk
-include $(CM_PATH)/common/gps.mk
-include $(CM_PATH)/common/lights.mk
-include $(CM_PATH)/common/media.mk
-include $(CM_PATH)/common/misc.mk
-include $(CM_PATH)/common/snap.mk
-include $(CM_PATH)/common/wifi.mk
-
-# Include QCOM product fragments
-include $(CM_PATH)/qcom/audio.mk
-include $(CM_PATH)/qcom/camera.mk
-include $(CM_PATH)/qcom/cne.mk
-include $(CM_PATH)/qcom/display.mk
-include $(CM_PATH)/qcom/fm.mk
-include $(CM_PATH)/qcom/gps.mk
-include $(CM_PATH)/qcom/init.mk
-include $(CM_PATH)/qcom/media.mk
-include $(CM_PATH)/qcom/net.mk
-include $(CM_PATH)/qcom/power.mk
-include $(CM_PATH)/qcom/radio.mk
-include $(CM_PATH)/qcom/sensors.mk
-include $(CM_PATH)/qcom/usb.mk
-include $(CM_PATH)/qcom/wifi.mk
-
-# Include Cyanogen product fragments
-include $(CM_PATH)/cyanogen/livedisplay.mk
-
-# Include device-specific product fragments
-include $(LOCAL_PATH)/product/*.mk
-
-# Inherit proprietary files
+# call the proprietary setup
 $(call inherit-product-if-exists, vendor/xiaomi/prada/prada-vendor.mk)
+
+# Audio
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/audio/audio_platform_info_extcodec.xml:system/etc/audio_platform_info_extcodec.xml \
+    $(LOCAL_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths_wcd9326.xml
+
+# Input
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/keylayout/ft5x06_ts.kl:system/usr/keylayout/ft5x06_ts.kl \
+    $(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
+
+# Libshims
+PRODUCT_PACKAGES += \
+    libshims_camera \
+    libshims_ims
+
+# Ramdisk
+PRODUCT_PACKAGES += \
+    init.target.rc
+
+# Sensors
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/sensors/hals.conf:system/etc/sensors/hals.conf \
+    $(LOCAL_PATH)/configs/sensors/sensor_def_qcomdev.conf:system/etc/sensors/sensor_def_qcomdev.conf
+
+# Wifi
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
+
+# Inherit from msm8956-common
+$(call inherit-product, device/xiaomi/msm8956-common/msm8956.mk)

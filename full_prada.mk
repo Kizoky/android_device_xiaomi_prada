@@ -1,6 +1,5 @@
-#!/bin/bash
 #
-# Copyright (C) 2016 The CyanogenMod Project
+# Copyright (C) 2015 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,13 +14,16 @@
 # limitations under the License.
 #
 
-set -e
+# Inherit from those products. Most specific first.
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# Required!
-export DEVICE=prada
-export DEVICE_COMMON=msm8956-common
-export VENDOR=xiaomi
+# Inherit from kipper device
+$(call inherit-product, device/xiaomi/prada/device.mk)
 
-export DEVICE_BRINGUP_YEAR=2016
-
-./../../$VENDOR/$DEVICE_COMMON/setup-makefiles.sh $@
+# Device identifier. This must come after all inclusions
+PRODUCT_DEVICE := prada
+PRODUCT_NAME := full_prada
+PRODUCT_BRAND := Xiaomi
+PRODUCT_MODEL := prada
+PRODUCT_MANUFACTURER := Xiaomi

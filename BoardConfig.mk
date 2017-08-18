@@ -1,5 +1,6 @@
 #
 # Copyright (C) 2016 The CyanogenMod Project
+# Copyright (C) 2017 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,52 +13,35 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+
+DEVICE_TREE := device/xiaomi/prada
+
+# inherit from common msm8956-common
+-include device/xiaomi/msm8956-common/BoardConfigCommon.mk
 
 DEVICE_PATH := device/xiaomi/prada
-CM_PATH := vendor/cm/config/board
 
-# Define platform before including any common things
-include $(DEVICE_PATH)/PlatformConfig.mk
+# Assertions
+TARGET_OTA_ASSERT_DEVICE := prada
 
-# Inherit common ARM64 board fragments
-include $(CM_PATH)/common/arm64/architecture.mk
-include $(CM_PATH)/common/arm64/binder.mk
+# Bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 
-# Inherit common board fragments
-include $(CM_PATH)/common/bluetooth.mk
-include $(CM_PATH)/common/bootloader.mk
-include $(CM_PATH)/common/camera.mk
-include $(CM_PATH)/common/clang.mk
-include $(CM_PATH)/common/cpusets.mk
-include $(CM_PATH)/common/dexopt.mk
-include $(CM_PATH)/common/dlmalloc.mk
-include $(CM_PATH)/common/filesystem.mk
-include $(CM_PATH)/common/gps.mk
-include $(CM_PATH)/common/sepolicy.mk
+# Filesystem
+BOARD_SYSTEMIMAGE_PARTITION_SIZE   := 3221225472
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 10930338816
 
-# Inherit QCOM board fragments
-include $(CM_PATH)/qcom/bluetooth.mk
-include $(CM_PATH)/qcom/bootloader.mk
-include $(CM_PATH)/qcom/camera.mk
-include $(CM_PATH)/qcom/cne.mk
-include $(CM_PATH)/qcom/display.mk
-include $(CM_PATH)/qcom/encryption.mk
-include $(CM_PATH)/qcom/fm.mk
-include $(CM_PATH)/qcom/gps.mk
-include $(CM_PATH)/qcom/per-mgr.mk
-include $(CM_PATH)/qcom/platform.mk
-include $(CM_PATH)/qcom/power.mk
-include $(CM_PATH)/qcom/recovery.mk
-include $(CM_PATH)/qcom/ril.mk
-include $(CM_PATH)/qcom/sepolicy.mk
-include $(CM_PATH)/qcom/time.mk
+# Kernel
+TARGET_PREBUILT_KERNEL := $(DEVICE_TREE)/Image.gz-dtb
 
-# Inherit Cyanogen board fragments
-include $(CM_PATH)/cyanogen/hardware.mk
+# Properties
+#TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 
-# Inherit device-specific board fragments
-include $(DEVICE_PATH)/board/*.mk
+# Sepolicy
+BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
 
-# Inherit the proprietary files
+# Enable real time lockscreen charging current values
+BOARD_GLOBAL_CFLAGS += -DBATTERY_REAL_INFO
+
+# inherit from the proprietary version
 -include vendor/xiaomi/prada/BoardConfigVendor.mk
