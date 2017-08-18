@@ -23,18 +23,6 @@ $(call inherit-product-if-exists, vendor/xiaomi/prada/prada-vendor.mk)
 # Audio
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_platform_info_extcodec.xml:system/etc/audio_platform_info_extcodec.xml \
-    $(LOCAL_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths_wcd9326.xml
-
-# Input
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/keylayout/ft5x06_ts.kl:system/usr/keylayout/ft5x06_ts.kl \
-    $(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-
-# Libshims
-PRODUCT_PACKAGES += \
-    libshims_camera \
-    libshims_ims
 
 # Ramdisk
 PRODUCT_PACKAGES += \
@@ -42,12 +30,8 @@ PRODUCT_PACKAGES += \
 
 # Sensors
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/sensors/hals.conf:system/etc/sensors/hals.conf \
-    $(LOCAL_PATH)/configs/sensors/sensor_def_qcomdev.conf:system/etc/sensors/sensor_def_qcomdev.conf
-
-# Wifi
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
+    $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
+    $(LOCAL_PATH)/configs/thermal-engine.conf:system/etc/thermal-engine.conf
 
 # Inherit from msm8956-common
 $(call inherit-product, device/xiaomi/msm8956-common/msm8956.mk)
