@@ -3,9 +3,14 @@
       "repository":"android_device_xiaomi_msm8956-common",
       "target_path":"device/xiaomi/msm8956-common"
    },
+   
+   {
+      "repository":"android_device_qcom_common",
+      "target_path":"device/qcom/common"
+   },
 
    {
       "repository":"proprietary_vendor_xiaomi",
-      "target_path":"vendor/xiaomi"
+      "target_path":"vendor/xiaomi/prada"
    }
 ]
